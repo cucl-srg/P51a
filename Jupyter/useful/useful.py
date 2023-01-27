@@ -5,7 +5,7 @@ from time import sleep, strptime
 import numpy as np
 from numpy import average
 import paramiko
-from thread import start_new_thread
+from _thread import start_new_thread
 from re import findall
 from math import ceil, floor
 

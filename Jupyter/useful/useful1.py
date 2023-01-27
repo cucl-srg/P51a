@@ -24,9 +24,9 @@ def largest_index(value, arrarr):
 def getrtts(exp,crsid,num):
     rtts= [[] for i in range(10)]
     for i in range(10):
-        with open('/home/l51/'+crsid+'/L50Lab1/'+exp+'_'+str(i)) as f:
+        with open('/home/l51/'+crsid+'/P51aLab1/'+exp+'_'+str(i)) as f:
             for j in range(num):
-                rt = f.next()
+                rt = next(f)
                 rt = findall(r'time=(.*?) ms',rt)[0]
                 rtts[i].append(float(rt)*1000)
         rtts[i] = sorted(rtts[i])
@@ -36,9 +36,9 @@ def getrtts(exp,crsid,num):
 
 def getrtt(ffile,crsid,num):
     rtt= []
-    with open('/home/l51/'+crsid+'/L50Lab1/'+ffile) as f:
+    with open('/home/l51/'+crsid+'/P51aLab1/'+ffile) as f:
             for j in range(num):
-                rt = f.next()
+                rt = next(f)
                 rt = findall(r'time=(.*?) ms',rt)[0]
                 rtt.append(float(rt)*1000)
     rtt = sorted(rtt)
@@ -162,9 +162,9 @@ def graph5_001(exp,crsid,usecs,num):
 def data_iperf(fexp,crsid):
     bws = [[] for i in range(10)]
     for j in range(5):
-        with open('/home/l51/'+crsid+'/L50Lab1/'+fexp+'_' + str(j)) as f:
+        with open('/home/l51/'+crsid+'/P51aLab1/'+fexp+'_' + str(j)) as f:
             for i in range(10):
-                bw = f.next()
+                bw = next(f)
                 bww = findall(r'Bytes(.*?)Gbits/sec', bw)[0]
                 bws[i].append(float(bww))
     return bws
@@ -174,14 +174,14 @@ def data10(crsid):
     sbw = [[] for i in range(10)]
     cbw = [[] for i in range(10)]
     for j in range(5):
-        with open('/home/l51/'+crsid+'/L50Lab1/10/exp10_' + str(j)) as f:
-            f.next()
-            f.next()
+        with open('/home/l51/'+crsid+'/P51aLab1/10/exp10_' + str(j)) as f:
+            next(f)
+            next(f)
             for i in range(10):
-                sb = f.next()
+                sb = next(f)
                 sbww = findall(r'GBytes(.*?)Gbits/sec', sb)[0]
                 sbw[i].append(float(sbww))
-                cb = f.next()
+                cb = next(f)
                 cbww = findall(r'GBytes(.*?)Gbits/sec', cb)[0]
                 cbw[i].append(float(cbww))
     return sbw, cbw
@@ -191,12 +191,12 @@ def data11(windows,crsid):
     bws = [[] for w in windows]
     for b in range(len(windows)):
         for i in range(5):
-            with open('/home/l51/'+crsid+'/L50Lab1/11/exp11_'+str(windows[b])+'_'+str(i)) as f:
-                wind = f.next()
+            with open('/home/l51/'+crsid+'/P51aLab1/11/exp11_'+str(windows[b])+'_'+str(i)) as f:
+                wind = next(f)
                 if (i==0):
                     w = findall(r'size:(.*?)KByte', wind)[0]
                     winds.append(float(wind[17:21]))
-                bw = f.next()
+                bw = next(f)
                 bww =findall(r'KBytes(.*?)Kbits/sec',bw)[0]
                 bws[b].append(float(bww)/1000000)
     return winds, bws
@@ -207,7 +207,7 @@ def data_band(fexp,crsid,bands):
     bans = [[] for b in bands]
     for b in range(len(bands)):
         for i in range(5):
-            with open('/home/l51/'+crsid+'/L50Lab1/'+fexp+'_'+str(bands[b])+'_'+str(i)) as f:
+            with open('/home/l51/'+crsid+'/P51aLab1/'+fexp+'_'+str(bands[b])+'_'+str(i)) as f:
                 out = f.read()
                 ba = float(findall(r'Bytes(.*?)Mbits/sec',out)[0])
                 bans[b].append(ba)
@@ -220,18 +220,18 @@ def data13b(windows,crsid):
     bws = [[] for w in windows]
     for b in range(len(windows)):
         for i in range(5):
-            with open('/home/l51/'+crsid+'/L50Lab1/13/exp13b_'+str(windows[b])+'_'+str(i)) as f:
+            with open('/home/l51/'+crsid+'/P51aLab1/13/exp13b_'+str(windows[b])+'_'+str(i)) as f:
                 for i in range(3):
-                    f.next()
-                bb = f.next()
+                    next(f)
+                bb = next(f)
                 bb= findall(r'Bytes(.*?)Mbits/sec',bb)[0]
                 bws[b].append(float(bb)/1000)
     return bws
 
 def graph_error(data):
-    meds = map(np.median,data)
-    mins = map(min,data)
-    maxs = map(max,data)
+    meds = list(map(np.median,data))
+    mins = list(map(min,data))
+    maxs = list(map(max,data))
     minsmaxs = [[],[]]
     for i in range(len(data)):
         minsmaxs[0].append(abs(mins[i] - meds[i]))
